@@ -1516,8 +1516,8 @@ html[data-theme="dark"] .seg-opt.on{background:var(--card);color:#8fc2ff}
   animation:vfPop .5s cubic-bezier(.34,1.4,.5,1)}
 .vf-badge svg{width:28px;height:28px}
 @keyframes vfPop{from{opacity:0;transform:scale(.7) translateY(8px)}to{opacity:1;transform:none}}
-.vf-input{text-align:center;font-size:26px;letter-spacing:.42em;padding:14px 10px;font-weight:700}
-.vf-input::placeholder{letter-spacing:.42em;opacity:.35}
+.vf-input{text-align:center;font-size:clamp(19px,5.2vw,26px);letter-spacing:.22em;padding:14px 8px;font-weight:700;text-indent:.22em}
+.vf-input::placeholder{letter-spacing:.06em;font-size:15px;font-weight:600;opacity:.4;text-indent:0}
 .vf-demo{background:#fff8e6;border:1px solid #f0d999;color:#7a5c12;border-radius:10px;padding:10px 12px;
   font-size:13px;margin-bottom:16px}
 html[data-theme="dark"] .vf-demo{background:rgba(240,217,153,.12);border-color:rgba(240,217,153,.3);color:#f0d999}
@@ -1669,7 +1669,7 @@ window.AWDB=(function(){
       var data={name:name}; if(meta){ for(var k in meta) if(Object.prototype.hasOwnProperty.call(meta,k)) data[k]=meta[k]; }
       return sb.auth.signUp({email:email,password:pw,options:{data:data}}).then(function(r){ if(r.error)return {ok:false,error:r.error.message}; return {ok:true,session:!!r.data.session}; });
     },
-    /* email verification by 6-digit code (Supabase sends it via your SMTP) */
+    /* email verification by one-time code (length set in Supabase: Auth -> Providers -> Email) */
     /* Works whether "Confirm email" is ON or OFF in Supabase:
        - OFF -> signInWithOtp sends the Magic Link template
        - ON  -> resend sends the Confirm signup template
@@ -2241,7 +2241,7 @@ function waChoose(title,message){
 /* an unverified email account must confirm before it can send an order */
 function guardVerified(){
   if(!needsVerify())return true;
-  toast('Please confirm your email first — we sent you a 6-digit code.',true);
+  toast('Please confirm your email first — check your inbox for the code.',true);
   try{ location.href='#/account'; }catch(e){}
   return false;
 }
@@ -2499,7 +2499,8 @@ function sendVerifyCode(){
 }
 function verifyCode(code){
   code=String(code||'').replace(/\s+/g,'');
-  if(!/^\d{6}$/.test(code))return Promise.resolve({ok:false,error:'Enter the 6-digit code from your email.'});
+  /* Supabase's OTP length is configurable (6-10), so don't assume 6 */
+  if(!/^\d{4,12}$/.test(code))return Promise.resolve({ok:false,error:'Enter the code from your email (digits only).'});
   var email=verifyTarget();
   if(!email)return Promise.resolve({ok:false,error:'Start the sign-up again.'});
   if(AWDB.isCloud()){
@@ -3415,7 +3416,7 @@ AW.pages['maintenance']=function(){
         +'<form data-act="auth-signup"><input type="hidden" name="mode" value="'+(byEmail?'email':'username')+'"/>'
           +'<div class="field"><label>Your name</label><input name="name" placeholder="e.g. Sara K." autocomplete="name" required/></div>'
           +(byEmail
-            ? '<div class="field"><label>Email</label><input name="identifier" type="email" placeholder="you@email.com" autocomplete="email" required/><div class="hint">We\'ll send you a 6-digit code to confirm it\'s yours.</div></div>'
+            ? '<div class="field"><label>Email</label><input name="identifier" type="email" placeholder="you@email.com" autocomplete="email" required/><div class="hint">We\'ll email you a code to confirm it\'s yours.</div></div>'
             : '<div class="field"><label>Username</label><input name="identifier" placeholder="yourname" autocomplete="username" pattern="[A-Za-z0-9._-]{3,20}" required/><div class="hint">3–20 characters: letters, numbers, dots, dashes or underscores. No email needed — but <b>we can\'t help you recover a forgotten password</b>, so keep it safe.</div></div>')
           +'<div class="field"><label>Password</label><input name="password" type="password" placeholder="At least 6 characters" autocomplete="new-password" required/></div>'
           +'<button class="btn btn-accent btn-block" type="submit">Create account</button></form>'
@@ -3435,11 +3436,11 @@ AW.pages['maintenance']=function(){
     return '<div class="auth-wrap"><div class="wrap"><div class="auth-card verify-card"><span class="mark">'+AW.logoMark()+'</span>'
       +'<div class="vf-badge">'+I.mail+'</div>'
       +'<h2>Check your email</h2>'
-      +'<p class="sub">We sent a 6-digit code to<br/><b class="mono">'+AW.esc(em)+'</b></p>'
+      +'<p class="sub">We sent a verification code to<br/><b class="mono">'+AW.esc(em)+'</b></p>'
       +(state.verifyLocalCode?'<div class="vf-demo">Demo mode — your code is <b>'+AW.esc(state.verifyLocalCode)+'</b></div>':'')
       +(state.verifyError?'<div class="vf-err"><b>The code could not be sent</b><span>'+AW.esc(state.verifyError)+'</span><small>Check Supabase → Authentication → Emails (SMTP) and that the template contains the token.</small></div>':'')
       +'<form data-act="verify-code">'
-        +'<div class="field"><label>Verification code</label><input name="code" class="vf-input mono" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autocomplete="one-time-code" required/></div>'
+        +'<div class="field"><label>Verification code</label><input name="code" class="vf-input mono" inputmode="numeric" pattern="[0-9]{4,12}" maxlength="12" placeholder="Enter code" autocomplete="one-time-code" required/></div>'
         +'<button class="btn btn-accent btn-block" type="submit">'+I.check+' Verify my email</button></form>'
       +'<div class="auth-alt">'
         +(wait>0
@@ -3885,7 +3886,7 @@ AW.pages['maintenance']=function(){
         break; }
       case 'verify-banner-send': {
         AW.sendVerifyCode().then(function(r){
-          if(r.ok){ state.verifyEmail=(AW.currentUser()||{}).email; state.verifyLocalCode=r.localCode||null; state.resendAt=Date.now()+60000; render(); AW.toast('We sent you a 6-digit code'); }
+          if(r.ok){ state.verifyEmail=(AW.currentUser()||{}).email; state.verifyLocalCode=r.localCode||null; state.resendAt=Date.now()+60000; render(); AW.toast('We sent you a verification code'); }
           else AW.toast(r.error||'Could not send the code',true);
         });
         break; }
@@ -3950,7 +3951,7 @@ AW.pages['maintenance']=function(){
           state.resendAt=Date.now()+60000; render();
           state.verifyError=r.sent?null:(r.sendError||'Unknown mail error');
           render();
-          if(r.sent)AW.toast('We sent you a 6-digit code');
+          if(r.sent)AW.toast('We sent you a verification code');
           else AW.toast('Account created, but the code could not be sent',true);
           return;
         }
