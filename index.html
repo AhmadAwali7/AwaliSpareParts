@@ -661,6 +661,52 @@ html,body{overscroll-behavior-y:none}
   .nav-links a.active::after,.mobile-menu.open .mm-panel > *{animation:none !important}
 }
 
+/* ============================================================
+   NAV + MOBILE MENU — grouped, iconed, properly spaced
+============================================================ */
+/* subtle divider before the account/cart cluster so the bar reads in groups */
+.nav-actions{gap:6px}
+.nav-actions .icon-btn{position:relative}
+.nav-actions #navLogout{color:var(--slate)}
+.nav-actions #navLogout:hover{color:#c0392b;background:rgba(192,57,43,.09)}
+html[data-theme="dark"] .nav-actions #navLogout:hover{color:#ff8b7a;background:rgba(255,139,122,.12)}
+
+/* ---- mobile menu ---- */
+.mm-panel{padding:18px 16px 26px;gap:2px}
+.mm-top{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.mm-label{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--slate);margin:16px 6px 6px;opacity:.85}
+.mm-label:first-of-type{margin-top:6px}
+.mm-panel a,.mm-item-btn{display:flex;align-items:center;gap:13px;width:100%;text-align:left;
+  padding:12px 12px;border-radius:11px;font-weight:600;font-size:15px;color:#2a3b4d;
+  background:none;border:0;cursor:pointer;transition:background .2s ease,color .2s ease,transform .18s ease}
+.mm-ic{flex:0 0 auto;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  background:#f0f4f9;color:var(--steel);transition:background .2s ease,color .2s ease}
+.mm-ic svg{width:18px;height:18px}
+.mm-panel a:hover,.mm-item-btn:hover{background:#f2f6fb;transform:translateX(2px)}
+.mm-panel a:hover .mm-ic,.mm-item-btn:hover .mm-ic{background:var(--accent);color:#fff}
+.mm-panel a.active{background:rgba(47,127,240,.12);color:var(--accent)}
+.mm-panel a.active .mm-ic{background:var(--accent);color:#fff}
+.mm-badge{margin-left:auto;min-width:22px;height:22px;padding:0 7px;border-radius:999px;
+  background:var(--accent);color:#fff;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
+#mmLogout{color:#c0392b}
+#mmLogout .mm-ic{background:rgba(192,57,43,.1);color:#c0392b}
+#mmLogout:hover{background:rgba(192,57,43,.08)}
+#mmLogout:hover .mm-ic{background:#c0392b;color:#fff}
+/* category links inside the menu sit tighter */
+#mmCats a{font-size:14.5px;padding:10px 12px}
+#mmCats a .mm-ic{width:30px;height:30px}
+#mmCats a .mm-ic svg{width:16px;height:16px}
+.mm-sep{display:none}
+html[data-theme="dark"] .mm-panel a,html[data-theme="dark"] .mm-item-btn{color:#c4d2e2}
+html[data-theme="dark"] .mm-ic{background:rgba(255,255,255,.07);color:var(--steel-2)}
+html[data-theme="dark"] .mm-panel a:hover,html[data-theme="dark"] .mm-item-btn:hover{background:rgba(255,255,255,.07)}
+html[data-theme="dark"] .mm-top{border-bottom-color:rgba(255,255,255,.12)}
+html[data-theme="dark"] #mmLogout{color:#ff8b7a}
+html[data-theme="dark"] #mmLogout .mm-ic{background:rgba(255,139,122,.14);color:#ff8b7a}
+.mm-search{margin-bottom:6px}
+@media(prefers-reduced-motion:reduce){ .mm-panel a,.mm-item-btn,.mm-ic{transition:none} }
+
 /* ===== home.css ===== */
 /* ============================================================
    home.css — homepage-only styles
@@ -1123,7 +1169,7 @@ html,body{overscroll-behavior-y:none}
 .stat.a .sv{color:var(--accent)}
 
 .atable{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.atable .arow{display:grid;grid-template-columns:56px 2.2fr 1.1fr 1fr auto;gap:14px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.atable .arow{display:grid;grid-template-columns:56px minmax(0,2.2fr) minmax(0,1.1fr) minmax(0,1fr) 132px;gap:14px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
 .atable .arow:last-child{border-bottom:0}
 .atable .arow.is-hidden{background:#fbfcfe;opacity:.72}
 .atable .ahdr{background:#f7f9fc;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate);font-weight:700}
@@ -1195,7 +1241,7 @@ html,body{overscroll-behavior-y:none}
 
 @media(max-width:860px){
   .stat-grid{grid-template-columns:repeat(2,1fr)}
-  .atable .arow{grid-template-columns:44px 1.6fr auto;gap:10px}
+  .atable .arow{grid-template-columns:44px minmax(0,1.6fr) 108px;gap:10px}
   .atable .acol-price,.atable .acol-cat{display:none}
   .mode-select{grid-template-columns:1fr}
 }
@@ -1353,7 +1399,7 @@ html[data-theme="dark"] .discount-preview{background:var(--accent-soft);border-c
 /* ============================================================
    ACCOUNTS TABLE — professional, consistent columns
 ============================================================ */
-.atable .arow.acct-row{grid-template-columns:minmax(0,1.5fr) minmax(0,2fr) 104px auto;gap:14px;align-items:center}
+.atable .arow.acct-row{grid-template-columns:minmax(0,1.5fr) minmax(0,2fr) 104px 184px;gap:14px;align-items:center}
 .atable .arow.acct-row .aname{min-width:0}
 .atable .arow.acct-row .aname b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .atable .arow.acct-row .aname small{display:block;font-family:'Space Mono';font-size:11px;color:var(--slate);margin-top:2px}
@@ -1546,6 +1592,28 @@ html[data-theme="dark"] .vf-err{background:rgba(243,183,183,.12);border-color:rg
 html[data-theme="dark"] .mt-ok{background:rgba(169,220,192,.12);border-color:rgba(169,220,192,.3);color:#a9dcc0}
 html[data-theme="dark"] .mt-bad{background:rgba(243,183,183,.12);border-color:rgba(243,183,183,.3);color:#f0b4b4}
 .vf-note{margin-top:16px;font-size:12.5px;color:var(--slate);line-height:1.6}
+
+/* ============================================================
+   TABLE ALIGNMENT — long names must never move the other columns
+============================================================ */
+.atable .arow > *{min-width:0}
+.atable .aname{min-width:0}
+.atable .aname b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.atable .aname small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.atable .acol-cat,.atable .acol-price{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* actions stay on one line, pinned right, never pushed to a second row */
+.atable .arow-acts{flex-wrap:nowrap;justify-content:flex-end;align-items:center}
+.atable .arow-acts .btn{flex:0 0 auto}
+.atable .ahdr > *{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* the header's Actions label lines up with the buttons under it */
+.atable .ahdr > *:last-child{text-align:right}
+@media(max-width:860px){
+  .atable .arow-acts{flex-wrap:wrap;justify-content:flex-end}
+}
+@media(max-width:640px){
+  .atable .arow.acct-row{grid-template-columns:1fr}
+  .atable .arow-acts{justify-content:flex-start}
+}
 
 </style>
 </head>
@@ -2004,6 +2072,9 @@ var I={
   wrench:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4a5 5 0 00-6.5 6.5L3 16v5h5l5.5-5.5A5 5 0 0020 9l-3 3-3-3 3-3a5 5 0 00-2-1z"/></svg>',
   scan:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3M3 12h18"/></svg>',
   instagram:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85s.01-3.58.07-4.85c.15-3.23 1.66-4.77 4.92-4.92 1.27-.06 1.65-.07 4.85-.07zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm6.41-11.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg>',
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
+  logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>',
   mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>',
   at:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg>',
   facebook:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.96h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.09 24 18.1 24 12.07z"/></svg>',
@@ -2186,6 +2257,8 @@ function removeFromCart(id){ cart=cart.filter(function(i){return i.id!==id;}); u
 function clearCart(){ cart=[]; updateCartCount(); saveCartNow(); }
 function updateCartCount(){
   var n=cartQty(), el=$('#cartCount');
+  var mc=$('#mmCartCount');
+  if(mc){ if(n>0){mc.textContent=n;mc.classList.remove('hidden');} else mc.classList.add('hidden'); }
   if(el){ if(n>0){el.textContent=n;el.classList.remove('hidden');}else{el.classList.add('hidden');} }
   if(typeof AW.onCartChange==='function')AW.onCartChange();
 }
@@ -2294,9 +2367,10 @@ function buildChrome(){
       +'<div class="nav-actions">'
         +'<button class="icon-btn nav-only" data-act="toggle-theme" type="button" aria-label="Dark mode" title="Dark mode"><span class="theme-ic">'+I.moon+'</span></button>'
         +'<button class="icon-btn nav-only" data-act="toggle-lang" type="button" aria-label="العربية" title="العربية"><span class="lang-label">ع</span></button>'
-        +'<a href="#/account" class="icon-btn nav-only" aria-label="Settings" title="Settings">'+I.gear+'</a>'
+        +'<a href="#/account?tab=settings" class="icon-btn nav-only" aria-label="Settings" title="Settings">'+I.gear+'</a>'
         +'<a href="#/cart" class="icon-btn" aria-label="Cart" title="Cart">'+I.cart+'<span class="cart-count hidden" id="cartCount">0</span></a>'
         +'<a href="#/account" class="icon-btn" id="acctBtn" aria-label="Account" title="Account"><img id="acctAv" class="hdr-av hidden" alt=""/><svg id="acctSvg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span class="cart-count hidden" id="acctBadge"></span></a>'
+        +'<button class="icon-btn nav-only hidden" id="navLogout" data-act="nav-logout" type="button" aria-label="Log out" title="Log out">'+I.logout+'</button>'
         +'<button class="icon-btn menu-toggle burger" data-act="menu-open" aria-label="Menu" aria-expanded="false"><span class="bl b1"></span><span class="bl b2"></span><span class="bl b3"></span></button>'
       +'</div>'
     +'</nav></div></header>';
@@ -2306,9 +2380,18 @@ function buildChrome(){
   if(mm){
     mm.innerHTML='<div class="mm-panel"><div class="mm-top"><b style="font-family:\'Space Grotesk\';font-size:18px">Menu</b><button class="icon-btn" data-act="menu-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'
       +'<form class="mm-search" data-act="search-form">'+I.search+'<input type="search" name="q" placeholder="Search parts…"/></form>'
-      +'<a href="#/" data-nav="home" data-act="menu-close">Home</a><div class="mm-sep"></div><div id="mmCats"></div><div class="mm-sep"></div>'
-      +'<a href="#/shop?offers=1" data-nav="offers" data-act="menu-close">🔥 Offers</a><a href="#/maintenance" data-nav="maintenance" data-act="menu-close">Maintenance</a><a href="#/cart" data-nav="cart" data-act="menu-close">Cart</a><a href="#/account" data-act="menu-close" id="mmAcct">My account</a><a href="#/account" data-act="menu-close">Settings</a>'
-      +'<div class="mm-sep"></div>'
+      +'<div class="mm-label">Browse</div>'
+      +'<a href="#/" data-nav="home" data-act="menu-close"><span class="mm-ic">'+I.home+'</span>Home</a>'
+      +'<a href="#/shop" data-nav="parts" data-act="menu-close"><span class="mm-ic">'+I.box+'</span>All parts</a>'
+      +'<a href="#/shop?offers=1" data-nav="offers" data-act="menu-close"><span class="mm-ic">'+I.spark+'</span>Offers</a>'
+      +'<a href="#/maintenance" data-nav="maintenance" data-act="menu-close"><span class="mm-ic">'+I.wrench+'</span>Maintenance</a>'
+      +'<div class="mm-label">Categories</div><div id="mmCats"></div>'
+      +'<div class="mm-label">Your account</div>'
+      +'<a href="#/cart" data-nav="cart" data-act="menu-close"><span class="mm-ic">'+I.cart+'</span>Cart<span class="mm-badge hidden" id="mmCartCount">0</span></a>'
+      +'<a href="#/account" data-act="menu-close" id="mmAcct"><span class="mm-ic">'+I.user+'</span>My account</a>'
+      +'<a href="#/account?tab=settings" data-act="menu-close"><span class="mm-ic">'+I.gear+'</span>Settings</a>'
+      +'<button class="mm-item-btn hidden" type="button" id="mmLogout" data-act="nav-logout"><span class="mm-ic">'+I.logout+'</span>Log out</button>'
+      +'<div class="mm-label">Preferences</div>'
       +'<button class="mm-item-btn" type="button" data-act="toggle-theme"><span class="mm-ic theme-ic">'+I.moon+'</span><span class="theme-label">Dark mode</span></button>'
       +'<div class="mm-lang"><span class="mm-lang-cap"><span class="mm-ic">'+I.globe+'</span>Language</span><div class="mm-lang-opts"><button type="button" class="mm-lang-opt" data-act="set-lang-btn" data-lang="en">English</button><button type="button" class="mm-lang-opt" data-act="set-lang-btn" data-lang="ar">العربية</button></div></div>'
       +'</div>';
@@ -2408,7 +2491,7 @@ function refreshChrome(){
   var vis=visibleCategories();
   var dd=$('#catDDPanel'); if(dd)dd.innerHTML=vis.map(function(c){return '<a href="#/shop?cat='+c.key+'">'+iconFor(c.key)+'<span>'+c.label+'<small>'+c.blurb+'</small></span></a>';}).join('');
   var fc=$('#footCats'); if(fc)fc.innerHTML=vis.map(function(c){return '<a href="#/shop?cat='+c.key+'">'+c.label+'</a>';}).join('');
-  var mmc=$('#mmCats'); if(mmc)mmc.innerHTML=vis.map(function(c){return '<a href="#/shop?cat='+c.key+'" data-act="menu-close">'+iconFor(c.key)+c.label+'</a>';}).join('');
+  var mmc=$('#mmCats'); if(mmc)mmc.innerHTML=vis.map(function(c){return '<a href="#/shop?cat='+c.key+'" data-act="menu-close"><span class="mm-ic">'+iconFor(c.key)+'</span>'+esc(c.label)+'</a>';}).join('');
   // account state
   var u=currentUser();
   var ab=$('#acctBtn'); if(ab)ab.setAttribute('title',u?('My account · '+(u.name||'')):'Log in / Sign up');
@@ -2416,6 +2499,8 @@ function refreshChrome(){
   var avatarUrl = u ? (u.avatar || (u.role==='owner'?(settings.ownerAvatar||''):'')) : '';
   if(avatarUrl){ if(aav){aav.src=avatarUrl;aav.classList.remove('hidden');} if(asvg)asvg.classList.add('hidden'); if(abg)abg.classList.add('hidden'); }
   else { if(aav)aav.classList.add('hidden'); if(asvg)asvg.classList.remove('hidden'); if(abg){ if(u){abg.textContent=(u.name||u.email||'?').charAt(0).toUpperCase();abg.classList.remove('hidden');}else abg.classList.add('hidden'); } }
+  var nlo=$('#navLogout'); if(nlo){ if(u)nlo.classList.remove('hidden'); else nlo.classList.add('hidden'); }
+  var mlo=$('#mmLogout'); if(mlo){ if(u)mlo.classList.remove('hidden'); else mlo.classList.add('hidden'); }
   var ma=$('#mmAcct'); if(ma)ma.textContent=u?('My account ('+(u.role==='owner'?'Owner':(u.name||'').split(' ')[0])+')'):'Log in / Sign up';
   var fa=$('#footAcct'); if(fa)fa.textContent=u?(u.role==='owner'?'Owner dashboard':'My account'):'Log in / Sign up';
   // active nav
@@ -2841,6 +2926,7 @@ document.addEventListener('click',function(e){
     case 'book-maintenance': bookMaintenance(''); break;
     case 'book-maintenance-cat': bookMaintenance(cat); break;
     case 'contact-wa': contactWa(); break;
+    case 'nav-logout': closeMenu(); logout().then(function(){ toast('Signed out'); try{ if(typeof window.AW_PAGE==='function')window.AW_PAGE(); }catch(e){} }); break;
     case 'qr-download': downloadQR(id); break;
     case 'qr-print': printLabel(id); break;
     case 'car-prev': carGoId(t.getAttribute('data-car')||'featCarousel',-1); break;
@@ -3370,8 +3456,17 @@ AW.pages['maintenance']=function(){
   var I=AW.I;
   var state={ tab:'products', editId:null, authTab:'login', signupMode:'email', catEdit:null, featSlides:null, blockEdit:null, blkSlides:null, verifyEmail:null, resendAt:0 };
 
-  AW.pages['account']=function(){ render(); };
+  AW.pages['account']=function(){ applyTabFromUrl(); render(); };
 
+  /* allow deep links like #/account?tab=settings (nav gear icon) */
+  function applyTabFromUrl(){
+    try{
+      var t=new URLSearchParams(AW._routeQuery()).get('tab');
+      if(!t)return;
+      var allowed=['products','add','featured','categories','customers','settings','data','myaccount'];
+      if(allowed.indexOf(t)>=0 && AW.isOwner && AW.isOwner())state.tab=t;
+    }catch(e){}
+  }
   function render(keepScroll){
     var app=AW.$('#app'); if(!app)return;
     /* an email account that hasn't confirmed yet cannot use the dashboard */
